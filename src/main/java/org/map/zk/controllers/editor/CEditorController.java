@@ -38,10 +38,10 @@ public class CEditorController extends SelectorComposer<Component> {
     
     @Wire
     Window windowPerson;
-       
+    
     @Wire
     Textbox textboxCi;
-      
+    
     @Wire
     Textbox textboxFirstName;
     
@@ -53,17 +53,16 @@ public class CEditorController extends SelectorComposer<Component> {
     
     @Wire
     Selectbox selectboxGender;
-
+    
     @Wire
     Textbox textboxComment;
-    
     
     protected CExtendedLogger controllerLogger = null;
     
     protected CLanguage controllerLanguage = null;
     
     protected ListModelList<String> datamodel = new ListModelList<String>();
-       
+    
     protected Listbox listboxPersons = null;
     
     protected final Execution execution = Executions.getCurrent();
@@ -73,7 +72,6 @@ public class CEditorController extends SelectorComposer<Component> {
     protected CDatabaseConnection dbConnection = null;
     
     protected String PersonaCi = null;
-    
     
     public void initcontrollerLoggerAndcontrollerLanguage( String strRunningPath, Session currentSession ) {
         
@@ -138,120 +136,118 @@ public class CEditorController extends SelectorComposer<Component> {
             final String strRunningpath = Sessions.getCurrent().getWebApp().getRealPath( SystemConstants._WEB_INF_DIR );
             initcontrollerLoggerAndcontrollerLanguage( strRunningpath, Sessions.getCurrent() );
             controllerLogger = ( CExtendedLogger ) Sessions.getCurrent().getWebApp().getAttribute( ConstantsCommonClasses._Webapp_Logger_App_Attribute_Key );
-            dateboxBirthdate.setFormat("dd-MM-yyyy");
-            datamodel.add("Female");
-            datamodel.add("Male");
-            selectboxGender.setModel(datamodel);
-            selectboxGender.setSelectedIndex(0);
+            dateboxBirthdate.setFormat( "dd-MM-yyyy" );
+            datamodel.add( "Female" );
+            datamodel.add( "Male" );
+            selectboxGender.setModel( datamodel );
+            selectboxGender.setSelectedIndex( 0 );
             datamodel.addToSelection( "Female" );
             
-            listboxPersons = (Listbox) execution.getArg().get( "listboxPersons" );
+            listboxPersons = ( Listbox ) execution.getArg().get( "listboxPersons" );
             
-            PersonaCi = (String) execution.getArg().get( "PersonaCi" );
+            PersonaCi = ( String ) execution.getArg().get( "PersonaCi" );
             
             Session currentSession = Sessions.getCurrent();
             
-            if (currentSession.getAttribute( SystemConstants._DB_Connection_Session_Key) instanceof CDatabaseConnection){
-               
-             dbConnection = (CDatabaseConnection) currentSession.getAttribute( SystemConstants._DB_Connection_Session_Key );
-             
-             personToModify = new TBLPerson();
-             
-               if (execution.getArg().get( "PersonaCi" ) instanceof String ){
-                 
-                   personToModify = PersonDAO.loadData( dbConnection, PersonaCi, controllerLogger, controllerLanguage ); 
-                 
-               }
+            if ( currentSession.getAttribute( SystemConstants._DB_Connection_Session_Key ) instanceof CDatabaseConnection ) {
+                
+                dbConnection = ( CDatabaseConnection ) currentSession.getAttribute( SystemConstants._DB_Connection_Session_Key );
+                
+                personToModify = new TBLPerson();
+                
+                if ( execution.getArg().get( "PersonaCi" ) instanceof String ) {
+                    
+                    personToModify = PersonDAO.loadData( dbConnection, PersonaCi, controllerLogger, controllerLanguage );
+                    
+                }
             }
-
-            if (PersonaCi != null){
-                
-              textboxCi.setValue( personToModify.getID() );
-              textboxFirstName.setValue( personToModify.getFirstName() );
-              textboxLastName.setValue( personToModify.getLastName() );
-              textboxComment.setValue( personToModify.getComment() );
-              if (personToModify.getGender()== 0){
-                                
-                 datamodel.addToSelection( "Female" );
-              
             
-              }
-              else{
+            if ( PersonaCi != null ) {
                 
-                 datamodel.addToSelection( "Male" );  
+                textboxCi.setValue( personToModify.getID() );
+                textboxFirstName.setValue( personToModify.getFirstName() );
+                textboxLastName.setValue( personToModify.getLastName() );
+                textboxComment.setValue( personToModify.getComment() );
+                if ( personToModify.getGender() == 0 ) {
+                    
+                    datamodel.addToSelection( "Female" );
+                    
+                }
+                else {
+                    
+                    datamodel.addToSelection( "Male" );
+                    
+                }
                 
-              }
-           
-                 dateboxBirthdate.setValue( java.sql.Date.valueOf(personToModify.getBirthdate()) );
-              
-              }
+                dateboxBirthdate.setValue( java.sql.Date.valueOf( personToModify.getBirthdate() ) );
+                
+            }
             
-            
-
-        } 
+        }
         
         catch ( Exception e ) {
             
             if ( controllerLogger != null ) {
                 
-                controllerLogger.logException ( "-1021", e.getMessage(), e );
-
+                controllerLogger.logException( "-1021", e.getMessage(), e );
+                
             }
         }
     }
-
-    @Listen("onClick=#buttonSave")
-    public void onClickButtonGuardar(Event event) {
-        if(dateboxBirthdate.getValue()!=null) {
-          LocalDate localDate = new java.sql.Date(dateboxBirthdate.getValue().getTime()).toLocalDate();
-          personToModify.setID(textboxCi.getValue());
-          personToModify.setFirstName(textboxFirstName.getValue());
-          personToModify.setLastName(textboxLastName.getValue());        
-          personToModify.setGender(selectboxGender.getSelectedIndex());
-          personToModify.setBirthdate(localDate);
-          personToModify.setComment(textboxComment.getValue());
-          
-          if ( ( !personToModify.getID().equals("")) && ( !personToModify.getFirstName().equals("") ) && ( !personToModify.getLastName().equals("") ) && ( personToModify.getGender()>=0 ) && ( personToModify.getBirthdate() != null ) && ( !personToModify.getComment().equals("") ) ){            
-  
-            if ( PersonaCi == null ) {
+    
+    @Listen( "onClick=#buttonSave" )
+    public void onClickButtonGuardar( Event event ) {
+        
+        if ( dateboxBirthdate.getValue() != null ) {
+            LocalDate localDate = new java.sql.Date( dateboxBirthdate.getValue().getTime() ).toLocalDate();
+            personToModify.setID( textboxCi.getValue() );
+            personToModify.setFirstName( textboxFirstName.getValue() );
+            personToModify.setLastName( textboxLastName.getValue() );
+            personToModify.setGender( selectboxGender.getSelectedIndex() );
+            personToModify.setBirthdate( localDate );
+            personToModify.setComment( textboxComment.getValue() );
+            
+            if ( ( !personToModify.getID().equals( "" ) ) && ( !personToModify.getFirstName().equals( "" ) ) && ( !personToModify.getLastName().equals( "" ) ) && ( personToModify.getGender() >= 0 ) && ( personToModify.getBirthdate() != null ) && ( !personToModify.getComment().equals( "" ) ) ) {
                 
-                PersonDAO.insertData( dbConnection, personToModify, controllerLogger, controllerLanguage );
-                
-                Events.echoEvent ( new Event ( "onKek", listboxPersons, personToModify ) );
-                                
-                windowPerson.detach();
+                if ( PersonaCi == null ) {
+                    
+                    PersonDAO.insertData( dbConnection, personToModify, controllerLogger, controllerLanguage );
+                    
+                    Events.echoEvent( new Event( "onKek", listboxPersons, personToModify ) );
+                    
+                    windowPerson.detach();
+                    
+                }
+                else {
+                    
+                    PersonDAO.updateData( dbConnection, personToModify, controllerLogger, controllerLanguage );
+                    
+                    Events.echoEvent( new Event( "onKek", listboxPersons, personToModify ) );
+                    
+                    windowPerson.detach();
+                    
+                }
                 
             }
             else {
-                               
-                PersonDAO.updateData( dbConnection, personToModify, controllerLogger, controllerLanguage );
                 
-                Events.echoEvent ( new Event ( "onKek", listboxPersons, personToModify ) );
-                
-                windowPerson.detach();
+                Messagebox.show( "Error, all fields must be filled", "Aceptar", Messagebox.OK, Messagebox.EXCLAMATION );
                 
             }
-              
-          }
-          else{
-              
-            Messagebox.show( "       Error, all fields must be filled", "Aceptar", Messagebox.OK, Messagebox.EXCLAMATION );
             
-          }
-          
         }
         
         else {
             
-            Messagebox.show ( "       Error, the field date is empty", "Aceptar", Messagebox.OK, Messagebox.EXCLAMATION );
+            Messagebox.show( "Error, the field date is empty", "Aceptar", Messagebox.OK, Messagebox.EXCLAMATION );
             
         }
     }
-
-    @Listen("onClick=#buttonCancel")
+    
+    @Listen( "onClick=#buttonCancel" )
     public void onClickButtonCancelar( Event event ) {
         
-        Messagebox.show( "       No change was made", "Aceptar", Messagebox.OK, Messagebox.EXCLAMATION );
+        Messagebox.show( "No change was made", "Aceptar", Messagebox.OK, Messagebox.EXCLAMATION );
         
         windowPerson.detach();
         

@@ -32,7 +32,7 @@ import commonlibs.utils.ZKUtilities;
 public class CloginController extends SelectorComposer<Component> {
     
     private static final long serialVersionUID = 3211193732865097784L;
-        
+    
     protected Execution execution = Executions.getCurrent();
     
     protected CDatabaseConnection ConnectionDatabase = null;
@@ -74,7 +74,7 @@ public class CloginController extends SelectorComposer<Component> {
     //onChangin es una accion que nos permite que cuando seleccionemos un textbox lo limpie si tiene algo dentro
     @Listen( "onChanging=#textboxOperator ;onChanging=#textboxPassword" )
     public void onChangeTextBox( Event event ) {
-               
+        
         labelMessage.setValue( "" );
         
     }
@@ -150,20 +150,20 @@ public class CloginController extends SelectorComposer<Component> {
                         }
                         else {
                             
-                            labelMessage.setValue( "error en el usuaro o password" );
+                            labelMessage.setValue( "error wrong user or password" );
                             
                         }
                     }
                     else {
                         
-                        Messagebox.show( "Conexion fallida!." );
+                        Messagebox.show( "Connection Failed." );
                         
                     }
                     
                 }
                 else {
                     
-                    Messagebox.show( "Error al leer el archivo de configuracion" );
+                    Messagebox.show( "Error When reading the configuration file" );
                     
                 }
                 
