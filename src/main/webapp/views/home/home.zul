@@ -12,11 +12,18 @@
     </north>
     
     <center id="mainContent" autoscroll="true" border="none">
-     <hbox hflex="1" vflex="1" pack="end" align="end">
-
-       <button id="buttonManager" label="Manager" />
-
-     </hbox>       
+   
+       <tabbox id ="tabboxMainContent" width="100%" height="100%">
+      
+        <tabs id="tabboxTabs">
+         
+        </tabs>
+        
+        <tabpanels id="tabboxPanels">
+        
+        </tabpanels> 
+     
+      </tabbox>   
       
     </center>
     

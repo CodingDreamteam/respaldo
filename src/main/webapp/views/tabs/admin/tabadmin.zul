@@ -1,0 +1,15 @@
+<?taglib uri="http://www.zkoss.org/dsp/web/core" prefix="c" ?>
+<?init class="org.map.zk.security.CSecurity"?>
+<zk> 
+
+  <tab id="tabAdmin" label="Admin"/>
+  
+    <tabpanel id="tabAdminPanel" apply="org.map.zk.controller.tab.admin.CTabAdminController">
+     
+     <button id="buttonPersonManager" label="Person Manager"/>
+     
+  
+    </tabpanel>
+   
+
+</zk>

@@ -1,0 +1,16 @@
+<?taglib uri="http://www.zkoss.org/dsp/web/core" prefix="c" ?>
+<?init class="org.map.zk.security.CSecurity"?>
+<zk> 
+
+  <tab id="tabHome" label="Home"/>
+  
+    <tabpanel id="tabHomePanel" apply="org.map.zk.controller.tab.home.CTabHomeController">
+     
+      <image src="/resources/images/logo-400x322.png" width="90px"  sclass="centered"/>
+     
+      <label id="labelWelcome" value="Welcome" sclass="Welcome"/>
+  
+    </tabpanel>
+   
+
+</zk>

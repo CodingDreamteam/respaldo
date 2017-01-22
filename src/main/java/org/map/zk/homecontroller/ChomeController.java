@@ -1,10 +1,11 @@
 package org.map.zk.homecontroller;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Map;
 
+import java.util.LinkedList;
+
+
+//
 import org.map.zk.systemconstans.SystemConstants;
 import org.map.zk.utilities.SystemUtilities;
 import org.map.zk.database.datamodel.TBLUser;
@@ -18,14 +19,17 @@ import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Label;
 import org.zkoss.zul.Messagebox;
+import org.zkoss.zul.Tab;
 import org.zkoss.zul.Tabbox;
-import org.zkoss.zul.Window;
+import org.zkoss.zul.Tabpanel;
+
 
 import commonlibs.commonclasses.CLanguage;
 import commonlibs.commonclasses.ConstantsCommonClasses;
 import commonlibs.extendedlogger.CExtendedConfigLogger;
 import commonlibs.extendedlogger.CExtendedLogger;
 import commonlibs.utils.Utilities;
+import commonlibs.utils.ZKUtilities;
 
 public class ChomeController extends SelectorComposer<Component> {
     
@@ -34,6 +38,7 @@ public class ChomeController extends SelectorComposer<Component> {
     protected CExtendedLogger controllerLogger = null;
     
     protected CLanguage controllerLanguage = null;
+
     
     @Wire( "#includeNorthContent #labelHeader" )
     Label labelHeader;
@@ -47,14 +52,14 @@ public class ChomeController extends SelectorComposer<Component> {
         
         TBLUser operatorCredential = ( TBLUser ) currentSession.getAttribute( SystemConstants._Operator_Credential_Session_Key );
         
-        String strOperator = SystemConstants._Operator_Unknown; //Esto es un valor por defecto no debería quedar con el pero si lo hacer el algoritmo no falla
-        String strLoginDateTime = ( String ) currentSession.getAttribute( SystemConstants._Login_Date_Time_Session_Key ); //Recuperamos información de fecha y hora del inicio de sesión Login
-        String strLogPath = ( String ) currentSession.getAttribute( SystemConstants._Log_Path_Session_Key ); //Recuperamos el path donde se guardarn los log ya que cambia según el nombre de l operador que inicie sesion  
+        String strOperator = SystemConstants._Operator_Unknown; 
+        String strLoginDateTime = ( String ) currentSession.getAttribute( SystemConstants._Login_Date_Time_Session_Key );
+        String strLogPath = ( String ) currentSession.getAttribute( SystemConstants._Log_Path_Session_Key ); 
         
         if ( operatorCredential != null )
-            strOperator = operatorCredential.getName();  //Obtenemos el nombre del operador que hizo login
+            strOperator = operatorCredential.getName(); 
             
-        if ( strLoginDateTime == null ) //En caso de ser null no ha fecha y hora de inicio de sesión colocarle una por defecto
+        if ( strLoginDateTime == null ) 
             strLoginDateTime = Utilities.getDateInFormat( ConstantsCommonClasses._Global_Date_Time_Format_File_System_24, null );
         
         final String LoggerName = SystemConstants._Home_Controller_Logger_Name;
@@ -77,7 +82,7 @@ public class ChomeController extends SelectorComposer<Component> {
                 controllerLogger.setupLogger( strOperator + " " + strLoginDateTime, false, strLogPath, LoggerFileName, SystemConstants.LOG_CLASS_METHOD, SystemConstants.LOG_EXACT_MATCH, SystemConstants.log_level, "", -1, "", "", "", "", -1, "", "" );
             
             //Inicializamos el lenguage para ser usado por el logger
-            controllerLanguage = CLanguage.getLanguage( controllerLogger, RunningPath + SystemConstants._Langs_Dir + LoggerName + "." + SystemConstants._Lang_Ext );
+                controllerLanguage = CLanguage.getLanguage( controllerLogger, RunningPath + SystemConstants._Langs_Dir + LoggerName + "." + SystemConstants._Lang_Ext );
             
             //Protección para el multi hebrado, puede que dos usuarios accedan exactamente al mismo tiempo a la página web, este código en el servidor se ejecuta en dos hebras
             synchronized ( currentSession ) {
@@ -106,15 +111,21 @@ public class ChomeController extends SelectorComposer<Component> {
         
     }
     
+
+	
+    
+    @Override
     public void doAfterCompose( Component comp ) {
         
         try {
-            //
+            
             super.doAfterCompose( comp );
             
-            final String strRunningpath = Sessions.getCurrent().getWebApp().getRealPath( SystemConstants._WEB_INF_DIR );
+            final String strRunningPath = Sessions.getCurrent().getWebApp().getRealPath( SystemConstants._WEB_INF_DIR ) + File.separator;
             
-            initControllerLoggerAndControllerLanguage( strRunningpath, Sessions.getCurrent() );
+            initControllerLoggerAndControllerLanguage( strRunningPath, Sessions.getCurrent() );
+            
+            initView();
             
         }
         catch ( Exception ex ) {
@@ -126,7 +137,74 @@ public class ChomeController extends SelectorComposer<Component> {
         
     }
     
+    
+public void initView() {
+        
+        TBLUser tblOperator = (TBLUser) Sessions.getCurrent().getAttribute( SystemConstants._Operator_Credential_Session_Key ); 
+        
+        if ( tblOperator != null ) {
+            
+            if ( labelHeader != null ) {
+                
+                labelHeader.setValue( tblOperator.getRole() );
+                
+            }
+            
+        }
 
+  
+        Component[] components = Executions.getCurrent().createComponents( "/views/tabs/home/tabhome.zul", null );
+           
+        Tab tab = (Tab) ZKUtilities.getComponent( components, "Tab" );      
+        
+        if ( tab != null ) {
+            
+           
+            tabboxMainContent.getTabs().appendChild( tab );
+            
+            
+            Tabpanel tabPanel = (Tabpanel) ZKUtilities.getComponent( components, "Tabpanel" );      
+            
+            
+            if ( tabPanel != null )
+                tabboxMainContent.getTabpanels().appendChild( tabPanel );
+        
+        }
+        
+        if ( tblOperator.getRole().equalsIgnoreCase( "admin" ) ) {
+            
+            
+            components = Executions.getCurrent().createComponents( "/views/tabs/admin/tabadmin.zul", null );
+            
+            
+            tab = (Tab) ZKUtilities.getComponent( components, "Tab" );      
+            
+            if ( tab != null ) {
+                
+             
+                tabboxMainContent.getTabs().appendChild( tab );
+                
+                //Buscamos el componente de tipo tabpanel
+                Tabpanel tabPanel = (Tabpanel) ZKUtilities.getComponent( components, "Tabpanel" );      
+                
+               
+                if ( tabPanel != null )
+                    tabboxMainContent.getTabpanels().appendChild( tabPanel );
+            
+            }
+            
+        }
+        else if ( tblOperator.getRole().equalsIgnoreCase( "operator.type1" ) ) {
+            
+            
+        }
+        else if ( tblOperator.getRole().equalsIgnoreCase( "operator.type2" ) ) {
+            
+            
+        }
+        
+}
+    
     @Listen( "onClick = #includeNorthContent #buttonChangePassword" )  
     public void onClickbuttonChangePassword( Event event ) {
 
@@ -134,22 +212,7 @@ public class ChomeController extends SelectorComposer<Component> {
             controllerLogger.logMessage( "1" , CLanguage.translateIf( controllerLanguage, "Button change password clicked" ) );
         
     }    
-    
-    @Listen ("onClick= #buttonManager")
-    public void onClickbuttonPersonManager (Event event) { 
-     
-        if ( controllerLogger != null )
-            controllerLogger.logMessage( "1", CLanguage.translateIf( controllerLanguage, "Button person manager clicked" ) );  
-        
-        Map<String,Object> params = new HashMap<String, Object>();
-        
-        params.put( "callerComponent", event.getTarget() );
-        
-        Window win = (Window) Executions.createComponents( "/views/person/manager/manager.zul", null, params );
-        
-        win.doModal();
-        
-    }
+
     
     
     @SuppressWarnings( { "unchecked", "rawtypes" } )
@@ -161,7 +224,9 @@ public class ChomeController extends SelectorComposer<Component> {
         
         Messagebox.show( "You are sure do you want logout from system?", "Logout", Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION, new org.zkoss.zk.ui.event.EventListener() {
             
-            public void onEvent(Event evt) throws InterruptedException {
+         
+        	
+        	public void onEvent(Event evt) throws InterruptedException {
                 
                 if ( evt.getName().equals( "onOK" ) ) {
                     
@@ -187,4 +252,8 @@ public class ChomeController extends SelectorComposer<Component> {
         
        }
     
-      }
+    
+      
+      
+    	
+}
