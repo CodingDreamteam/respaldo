@@ -56,11 +56,11 @@ public class CZKSubsystemEvents implements DesktopInit, DesktopCleanup, SessionI
         
         try {      
             
-            String strRunningPath = webApp.getRealPath(SystemConstants._WEB_INF_DIR)  + File.separator;
+            String strRunningPath = webApp.getRealPath(SystemConstants._Web_Inf_Dir)  + File.separator;
             
             CExtendedConfigLogger configLogger = new CExtendedConfigLogger();
             
-            String strConfigPath = strRunningPath + SystemConstants._CONFIG_DIR + SystemConstants._Logger_Config_Name;
+            String strConfigPath = strRunningPath + SystemConstants._Config_Dir + SystemConstants._Logger_Config_Name;
             
             if (configLogger.loadConfig( strConfigPath, null, null )){
                 

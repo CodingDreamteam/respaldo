@@ -16,7 +16,7 @@ public class SystemUtilities {
             
             result = new CExtendedConfigLogger();
             
-            String strConfigPath = strRunningPath + SystemConstants._CONFIG_DIR;
+            String strConfigPath = strRunningPath + SystemConstants._Config_Dir;
             
             CExtendedLogger webAppLogger = CExtendedLogger.getLogger( SystemConstants._Webapp_Logger_Name );
             

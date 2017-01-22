@@ -3,26 +3,27 @@ package org.map.zk.systemconstans;
 import java.io.File;
 
 public class SystemConstants {
-	public static final String _Libs_Dir = "libs"+ File.separator;
+	
+	public static final String _Libs_Dir = "libs" + File.separator;
 	public static final String _Lins_Ext = ".jar";
 	
-	public static final String _Langs_Dir  = "langs"+ File.separator;
+	public static final String _Langs_Dir  = "langs" + File.separator;
 	public static final String _Lang_Ext= "init.lang";
 	public static final String _Common_Lang_File = "common.init.lang";
 	
-	public static final String _Logs_Dir = "logs"+ File.separator;
+	public static final String _Logs_Dir = "logs" + File.separator;
 	
-	public static final String _Temp_Dir = "temp"+File.separator;
+	public static final String _Temp_Dir = "temp" + File.separator;
 	
-	public static final String _Security_Dir = "security"+File.separator;
+	public static final String _Security_Dir = "security" + File.separator;
 	
-	public static final String _System_Dir = "system"+File.separator;
+	public static final String _System_Dir = "system" + File.separator;
 	
-	public static final String _WEB_INF_DIR = "WEB-INF";
+	public static final String _Web_Inf_Dir = "WEB-INF";
 	
-	public static final String _CONFIG_DIR = "config" + File.separator;
+	public static final String _Config_Dir = "config" + File.separator;
 	
-	public static final String _DATABASE_CONFIG_FILE = "database.config.xml";
+	public static final String _Database_Config_File = "database.config.xml";
 	
 	public static final String _Database_Config_Production_File = "database.production.config.xml";
 	
@@ -44,15 +45,15 @@ public class SystemConstants {
     public static final String _Webapp_Logger_File_Log = "webapplogger.log";
 	
     
-    public static final String CHECK_LOGGED_LOGGER_NAME = "checklogged";
-    public static final String CHECK_LOGGED_FILE_log = "checklogged.log";
+    public static final String _Check_Logged_Logger_Name = "checklogged";
+    public static final String _Check_Logged_File_log = "checklogged.log";
     
-    public static final String LOG_CLASS_METHOD = "*.*";
-    public static final boolean LOG_EXACT_MATCH = false;
-    public static final boolean LOG_MISSING_TRASLATION = false;
-    public static final String LOG_NAME_MISSING_TRASLATION = "MissingTranslations";
-    public static final String MISSING_TRASLATION_FILE_ = LOG_NAME_MISSING_TRASLATION+".log";
-    public static final String log_level = "ALL";
+    public static final String  _Log_Class_Method = "*.*";
+    public static final boolean _Log_Exact_Match = false;
+    public static final boolean _Log_Missing_Traslation = false;
+    public static final String  _Log_Name_Missing_Traslation = "MissingTranslations";
+    public static final String  _Missing_Traslation_File = _Log_Name_Missing_Traslation + ".log";
+    public static final String  _Log_Level = "ALL";
     
     public static final String _Home_Controller_Logger_Name = "home_controller";
     public static final String _Home_Controller_File_Log = "home_controller.log";

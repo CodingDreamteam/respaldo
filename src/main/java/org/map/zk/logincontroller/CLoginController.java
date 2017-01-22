@@ -29,7 +29,7 @@ import commonlibs.extendedlogger.CExtendedLogger;
 import commonlibs.utils.Utilities;
 import commonlibs.utils.ZKUtilities;
 
-public class CloginController extends SelectorComposer<Component> {
+public class CLoginController extends SelectorComposer<Component> {
     
     private static final long serialVersionUID = 3211193732865097784L;
     
@@ -83,57 +83,58 @@ public class CloginController extends SelectorComposer<Component> {
     public void onClickBlogin( Event event ) {
         
         try {
-            //aqui nos conectamos a laDB y verificamos que el user exista y la password sea correcta
+        	
+            //aqui nos conectamos a la DB y verificamos que el user exista y la password sea correcta
             
-            final String username = ZKUtilities.getTextBoxValue( textboxOperator, controllogger );
+            final String strUsername = ZKUtilities.getTextBoxValue( textboxOperator, controllogger );
             
-            final String userpassword = ZKUtilities.getTextBoxValue( textboxPassword, controllogger );
+            final String strPassword = ZKUtilities.getTextBoxValue( textboxPassword, controllogger );
             
             Session session = Sessions.getCurrent();
             
-            if ( username.isEmpty() == false && userpassword.isEmpty() == false ) {
+            if ( strUsername.isEmpty() == false && strPassword.isEmpty() == false ) {
                 
                 ConnectionDatabase = new CDatabaseConnection();
                 
                 CDatabaseConnectionConfig config = new CDatabaseConnectionConfig();
                 
-                String patch = Sessions.getCurrent().getWebApp().getRealPath( SystemConstants._WEB_INF_DIR );
+                String strPatch = Sessions.getCurrent().getWebApp().getRealPath( SystemConstants._Web_Inf_Dir );
                 
-                if ( config.LoadConfig( patch + File.separator + SystemConstants._CONFIG_DIR + SystemConstants._DATABASE_CONFIG_FILE, controllogger, controllanguaje ) ) {
+                if ( config.LoadConfig( strPatch + File.separator + SystemConstants._Config_Dir + SystemConstants._Database_Config_File, controllogger, controllanguaje ) ) {
                     
                     if ( ConnectionDatabase.makeConnectionToDatabase( config, controllogger, controllanguaje ) ) {//Si logra conectarse  
                         
-                        TBLUser operador = UserDAO.checkData( ConnectionDatabase, username, userpassword, controllogger, controllanguaje );
+                        TBLUser tblUser = UserDAO.checkData( ConnectionDatabase, strUsername, strPassword, controllogger, controllanguaje );
                         
-                        if ( operador != null ) {
+                        if ( tblUser != null ) {
                             
                             Session currentSession = Sessions.getCurrent();
                             
                             labelMessage.setSclass( "" );
                             
-                            labelMessage.setValue( "Welcome " + operador.getName() + "!" );
+                            labelMessage.setValue( "Welcome " + tblUser.getName() + "!" );
                             
                             session.setAttribute( SystemConstants._DB_Connection_Session_Key, ConnectionDatabase );
                             
-                            session.setAttribute( SystemConstants._Operator_Credential_Session_Key, operador );
+                            session.setAttribute( SystemConstants._Operator_Credential_Session_Key, tblUser );
                             
-                            controllogger.logMessage( "1", CLanguage.translateIf( controllanguaje, "Saved user credential in session for user [%s]", operador.getName() ) );
+                            controllogger.logMessage( "1", CLanguage.translateIf( controllanguaje, "Saved user credential in session for user [%s]", tblUser.getName() ) );
                             
-                            //Obtenemos la fecha y la hora en el formato yyyy-MM-dd-HH-mm-ss
-                            String DateTime = Utilities.getDateInFormat( ConstantsCommonClasses._Global_Date_Time_Format_File_System_24, null );
+                            //Obtenemos la fecha y la hora en el formato 
+                            String strDateTime = Utilities.getDateInFormat( ConstantsCommonClasses._Global_Date_Time_Format_File_System_24, null );
                             
                             //Creamos la variable del logpath
-                            String LogPath = patch + File.separator + SystemConstants._Logs_Dir + username + File.separator + DateTime + File.separator;
+                            String strLogPath = strPatch + File.separator + SystemConstants._Logs_Dir + strUsername + File.separator + strDateTime + File.separator;
                             
-                            //La guardamos en la sesion
-                            currentSession.setAttribute( SystemConstants._Log_Path_Session_Key, LogPath );
+                            //Guardamos en la sesion
+                            currentSession.setAttribute( SystemConstants._Log_Path_Session_Key, strLogPath );
                             
-                            controllogger.logMessage( "1", CLanguage.translateIf( controllanguaje, "Saved user log path [%s] in session for user [%s]", LogPath, username ) );
+                            controllogger.logMessage( "1", CLanguage.translateIf( controllanguaje, "Saved user log path [%s] in session for user [%s]", strLogPath, strUsername ) );
                             
                             //Guardamos la fecha y la hora del inicio de sesión
-                            currentSession.setAttribute( SystemConstants._Login_Date_Time_Session_Key, DateTime );
+                            currentSession.setAttribute( SystemConstants._Login_Date_Time_Session_Key, strDateTime );
                             
-                            controllogger.logMessage( "1", CLanguage.translateIf( controllanguaje, "Saved user login date time [%s] in session for user [%s]", DateTime, username ) );
+                            controllogger.logMessage( "1", CLanguage.translateIf( controllanguaje, "Saved user login date time [%s] in session for user [%s]", strDateTime, strUsername ) );
                             
                             //Creamos la lista de logger de esta sesion
                             List<String> loggedSessionLoggers = new LinkedList<String>();
@@ -142,7 +143,7 @@ public class CloginController extends SelectorComposer<Component> {
                             currentSession.setAttribute( SystemConstants._Logged_Session_Loggers, loggedSessionLoggers );
                             
                             //Actualizamos en bd el último inicio de sesión
-                            UserDAO.updateLogin( ConnectionDatabase, operador.getID(), controllogger, controllanguaje );
+                            UserDAO.updateLogin( ConnectionDatabase, tblUser.getID(), controllogger, controllanguaje );
                             
                             //Redirecionamos hacia el home.zul
                             Executions.sendRedirect( "/views/home/home.zul" );
@@ -184,7 +185,6 @@ public class CloginController extends SelectorComposer<Component> {
     public void onTimer( Event event ) {
         
         Clients.showNotification( "automatic session successful", "info", null, "before_center", 2000 );
-        ;
         
     }
     

@@ -31,7 +31,7 @@ import commonlibs.extendedlogger.CExtendedLogger;
 import commonlibs.utils.Utilities;
 import commonlibs.utils.ZKUtilities;
 
-public class ChomeController extends SelectorComposer<Component> {
+public class CHomeController extends SelectorComposer<Component> {
     
     private static final long serialVersionUID = -6992273830457634170L;
     
@@ -50,22 +50,22 @@ public class ChomeController extends SelectorComposer<Component> {
         
         CExtendedConfigLogger extendedConfigLogger = SystemUtilities.initLoggerConfig( RunningPath, currentSession );
         
-        TBLUser operatorCredential = ( TBLUser ) currentSession.getAttribute( SystemConstants._Operator_Credential_Session_Key );
+        TBLUser tblUser = ( TBLUser ) currentSession.getAttribute( SystemConstants._Operator_Credential_Session_Key );
         
-        String strOperator = SystemConstants._Operator_Unknown; 
+        String strUser = SystemConstants._Operator_Unknown; 
         String strLoginDateTime = ( String ) currentSession.getAttribute( SystemConstants._Login_Date_Time_Session_Key );
         String strLogPath = ( String ) currentSession.getAttribute( SystemConstants._Log_Path_Session_Key ); 
         
-        if ( operatorCredential != null )
-            strOperator = operatorCredential.getName(); 
+        if ( tblUser != null )
+            strUser = tblUser.getName(); 
             
         if ( strLoginDateTime == null ) 
             strLoginDateTime = Utilities.getDateInFormat( ConstantsCommonClasses._Global_Date_Time_Format_File_System_24, null );
         
-        final String LoggerName = SystemConstants._Home_Controller_Logger_Name;
-        final String LoggerFileName = SystemConstants._Home_Controller_File_Log;
+        final String strLoggerName = SystemConstants._Home_Controller_Logger_Name;
+        final String strLoggerFileName = SystemConstants._Home_Controller_File_Log;
         
-        controllerLogger = CExtendedLogger.getLogger( LoggerName + " " + strOperator + " " + strLoginDateTime );
+        controllerLogger = CExtendedLogger.getLogger( strLoggerName + " " + strUser + " " + strLoginDateTime );
         
         if ( controllerLogger.getSetupSet() == false ) {
             
@@ -75,16 +75,16 @@ public class ChomeController extends SelectorComposer<Component> {
             
             if ( extendedConfigLogger != null )
                 
-                controllerLogger.setupLogger( strOperator + " " + strLoginDateTime, false, strLogPath, LoggerFileName, extendedConfigLogger.getClassNameMethodName(), extendedConfigLogger.getExactMatch(), extendedConfigLogger.getLevel(), extendedConfigLogger.getLogIP(), extendedConfigLogger.getLogPort(), extendedConfigLogger.getHTTPLogURL(), extendedConfigLogger.getHTTPLogUser(), extendedConfigLogger.getHTTPLogPassword(), extendedConfigLogger.getProxyIP(), extendedConfigLogger.getProxyPort(), extendedConfigLogger.getProxyUser(), extendedConfigLogger.getProxyPassword() );
+                controllerLogger.setupLogger( strUser + " " + strLoginDateTime, false, strLogPath, strLoggerFileName, extendedConfigLogger.getClassNameMethodName(), extendedConfigLogger.getExactMatch(), extendedConfigLogger.getLevel(), extendedConfigLogger.getLogIP(), extendedConfigLogger.getLogPort(), extendedConfigLogger.getHTTPLogURL(), extendedConfigLogger.getHTTPLogUser(), extendedConfigLogger.getHTTPLogPassword(), extendedConfigLogger.getProxyIP(), extendedConfigLogger.getProxyPort(), extendedConfigLogger.getProxyUser(), extendedConfigLogger.getProxyPassword() );
             
             else
                 
-                controllerLogger.setupLogger( strOperator + " " + strLoginDateTime, false, strLogPath, LoggerFileName, SystemConstants.LOG_CLASS_METHOD, SystemConstants.LOG_EXACT_MATCH, SystemConstants.log_level, "", -1, "", "", "", "", -1, "", "" );
+                controllerLogger.setupLogger( strUser + " " + strLoginDateTime, false, strLogPath, strLoggerFileName, SystemConstants._Log_Class_Method, SystemConstants._Log_Exact_Match, SystemConstants._Log_Level, "", -1, "", "", "", "", -1, "", "" );
             
-            //Inicializamos el lenguage para ser usado por el logger
-                controllerLanguage = CLanguage.getLanguage( controllerLogger, RunningPath + SystemConstants._Langs_Dir + LoggerName + "." + SystemConstants._Lang_Ext );
+           
+                controllerLanguage = CLanguage.getLanguage( controllerLogger, RunningPath + SystemConstants._Langs_Dir + strLoggerName + "." + SystemConstants._Lang_Ext );
             
-            //Protección para el multi hebrado, puede que dos usuarios accedan exactamente al mismo tiempo a la página web, este código en el servidor se ejecuta en dos hebras
+            //Protección para cuando dos usuarios accedan exactamente al mismo tiempo a la página web
             synchronized ( currentSession ) {
                 
                 //Guardamos en la sesisón los logger que se van creando para luego ser destruidos.
@@ -96,7 +96,7 @@ public class ChomeController extends SelectorComposer<Component> {
                     synchronized ( loggedSessionLoggers ) {
                         
                         //Lo agregamos a la lista
-                        loggedSessionLoggers.add( LoggerName + " " + strOperator + " " + strLoginDateTime );
+                        loggedSessionLoggers.add( strLoggerName + " " + strUser + " " + strLoginDateTime );
                         
                     }
                     
@@ -121,7 +121,7 @@ public class ChomeController extends SelectorComposer<Component> {
             
             super.doAfterCompose( comp );
             
-            final String strRunningPath = Sessions.getCurrent().getWebApp().getRealPath( SystemConstants._WEB_INF_DIR ) + File.separator;
+            final String strRunningPath = Sessions.getCurrent().getWebApp().getRealPath( SystemConstants._Web_Inf_Dir ) + File.separator;
             
             initControllerLoggerAndControllerLanguage( strRunningPath, Sessions.getCurrent() );
             
@@ -140,13 +140,13 @@ public class ChomeController extends SelectorComposer<Component> {
     
 public void initView() {
         
-        TBLUser tblOperator = (TBLUser) Sessions.getCurrent().getAttribute( SystemConstants._Operator_Credential_Session_Key ); 
+        TBLUser tblUser = (TBLUser) Sessions.getCurrent().getAttribute( SystemConstants._Operator_Credential_Session_Key ); 
         
-        if ( tblOperator != null ) {
+        if ( tblUser != null ) {
             
             if ( labelHeader != null ) {
                 
-                labelHeader.setValue( tblOperator.getRole() );
+                labelHeader.setValue( tblUser.getRole() );
                 
             }
             
@@ -171,7 +171,7 @@ public void initView() {
         
         }
         
-        if ( tblOperator.getRole().equalsIgnoreCase( "admin" ) ) {
+        if ( tblUser.getRole().equalsIgnoreCase( "admin" ) ) {
             
             
             components = Executions.getCurrent().createComponents( "/views/tabs/admin/tabadmin.zul", null );
@@ -194,11 +194,11 @@ public void initView() {
             }
             
         }
-        else if ( tblOperator.getRole().equalsIgnoreCase( "operator.type1" ) ) {
+        else if ( tblUser.getRole().equalsIgnoreCase( "user.type1" ) ) {
             
             
         }
-        else if ( tblOperator.getRole().equalsIgnoreCase( "operator.type2" ) ) {
+        else if ( tblUser.getRole().equalsIgnoreCase( "user.type2" ) ) {
             
             
         }
@@ -233,10 +233,9 @@ public void initView() {
                     if ( controllerLogger != null )
                         controllerLogger.logMessage( "1" , CLanguage.translateIf( controllerLanguage, "Logout confirm accepted" ) );
                     
-                    //Ok aquí vamos hacer el logout
-                    Sessions.getCurrent().invalidate(); //Listo obliga limpiar la sessión mejor que ir removeAttribute a removeAttribute
-                   
-                    Executions.sendRedirect( "/index.zul"); //Lo enviamos al login
+                    Sessions.getCurrent().invalidate(); //limpiar la sessión 
+                    
+                    Executions.sendRedirect( "/index.zul"); //Enviamos al login
                     
                 }
                 else {

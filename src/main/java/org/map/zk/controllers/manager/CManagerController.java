@@ -82,27 +82,27 @@ public class CManagerController extends SelectorComposer<Component> {
                 Listcell cell = new Listcell();// Se crea una nueva celda
                 cell.setLabel( persona.getID() );// Se le asigna un valor a
                                                  // la// celda
-                listitem.appendChild( cell );// Se añade la celda a la lista
+                listitem.appendChild( cell );// Se aï¿½ade la celda a la lista
                 cell = new Listcell();// Se crea una nueva celda
                 cell.setLabel( persona.getFirstName() );// Se le asigna un valor a
                                                         // la// celda
-                listitem.appendChild( cell );// Se añade la celda a la lista
+                listitem.appendChild( cell );// Se aï¿½ade la celda a la lista
                 cell = new Listcell();// Se crea una nueva celda
                 cell.setLabel( persona.getLastName() );// Se le asigna un valor a
                                                        // la// celda
-                listitem.appendChild( cell );// Se añade la celda a la lista                
+                listitem.appendChild( cell );// Se aï¿½ade la celda a la lista                
                 cell = new Listcell();// Se crea una nueva celda
                 cell.setLabel( persona.getGender() == 0 ? "Female" : "Male" );// Se le asigna un valor a
                 // la celda                
-                listitem.appendChild( cell );// Se añade la celda a la lista
+                listitem.appendChild( cell );// Se aï¿½ade la celda a la lista
                 cell = new Listcell();// Se crea una nueva celda
                 cell.setLabel( persona.getBirthdate().toString() );// Se le asigna un valor a
                 // la celda
-                listitem.appendChild( cell );// Se añade la celda a la lista
+                listitem.appendChild( cell );// Se aï¿½ade la celda a la lista
                 cell = new Listcell();// Se crea una nueva celda
                 cell.setLabel( persona.getComment() );// Se le asigna un valor a
                                                       // la// celda
-                listitem.appendChild( cell );// Se añade la celda a la lista
+                listitem.appendChild( cell );// Se aï¿½ade la celda a la lista
                 
             }
             catch ( Exception ex ) {
@@ -142,7 +142,7 @@ public class CManagerController extends SelectorComposer<Component> {
             if ( extendedConfigLogger != null )
                 controllerLogger.setupLogger( strOperator + " " + strLoginDateTime, false, strLogPath, strLoggerFileName, extendedConfigLogger.getClassNameMethodName(), extendedConfigLogger.getExactMatch(), extendedConfigLogger.getLevel(), extendedConfigLogger.getLogIP(), extendedConfigLogger.getLogPort(), extendedConfigLogger.getHTTPLogURL(), extendedConfigLogger.getHTTPLogUser(), extendedConfigLogger.getHTTPLogPassword(), extendedConfigLogger.getProxyIP(), extendedConfigLogger.getProxyPort(), extendedConfigLogger.getProxyUser(), extendedConfigLogger.getProxyPassword() );
             else
-                controllerLogger.setupLogger( strOperator + " " + strLoginDateTime, false, strLogPath, strLoggerFileName, SystemConstants.LOG_CLASS_METHOD, SystemConstants.LOG_EXACT_MATCH, SystemConstants.log_level, "", -1, "", "", "", "", -1, "", "" );
+                controllerLogger.setupLogger( strOperator + " " + strLoginDateTime, false, strLogPath, strLoggerFileName, SystemConstants._Log_Class_Method, SystemConstants._Log_Exact_Match, SystemConstants._Log_Level, "", -1, "", "", "", "", -1, "", "" );
             
             controllerLanguage = CLanguage.getLanguage( controllerLogger, strRunningPath + SystemConstants._Langs_Dir + strLoggerName + "." + SystemConstants._Lang_Ext );
             
@@ -173,7 +173,7 @@ public class CManagerController extends SelectorComposer<Component> {
         
         try {
             super.doAfterCompose( comp );
-            final String strRunningpath = Sessions.getCurrent().getWebApp().getRealPath( SystemConstants._WEB_INF_DIR );
+            final String strRunningpath = Sessions.getCurrent().getWebApp().getRealPath( SystemConstants._Web_Inf_Dir );
             
             initcontrollerLoggerAndcontrollerLanguage( strRunningpath, Sessions.getCurrent() );
             
@@ -197,13 +197,13 @@ public class CManagerController extends SelectorComposer<Component> {
         
         listboxPersons.setModel( ( ListModelList<?> ) null );//Se limpia la listbox
         
-        Session sesion = Sessions.getCurrent();//Se recupera la sesión
+        Session sesion = Sessions.getCurrent();//Se recupera la sesiï¿½n
         
-        if ( sesion.getAttribute( SystemConstants._DB_Connection_Session_Key ) instanceof CDatabaseConnection ) {//Si se está conectado
+        if ( sesion.getAttribute( SystemConstants._DB_Connection_Session_Key ) instanceof CDatabaseConnection ) {//Si se estï¿½ conectado
             
-            database = ( CDatabaseConnection ) sesion.getAttribute( SystemConstants._DB_Connection_Session_Key );//Se asigna la dirección de la bd
+            database = ( CDatabaseConnection ) sesion.getAttribute( SystemConstants._DB_Connection_Session_Key );//Se asigna la direcciï¿½n de la bd
             
-            List<TBLPerson> listData = PersonDAO.loadAllData( database, controllerLogger, controllerLanguage );//Se llama al método de búsqueda y se asigna a la lista de persona        
+            List<TBLPerson> listData = PersonDAO.loadAllData( database, controllerLogger, controllerLanguage );//Se llama al mï¿½todo de bï¿½squeda y se asigna a la lista de persona        
             
             datamodelpersona = new ListModelList<TBLPerson>( listData );//Se crea un nuevo modelo con la lista de personas
             
@@ -267,7 +267,7 @@ public class CManagerController extends SelectorComposer<Component> {
     
     @SuppressWarnings( { "rawtypes", "unchecked" } )
     @Listen( "onClick=#buttonDelete" )
-    public void onClickbuttondelete( Event event ) {//Si se hace click en el botón borrar
+    public void onClickbuttondelete( Event event ) {//Si se hace click en el botï¿½n borrar
         
         if ( listboxPersons.getSelectedIndex() >= 0 ) {
             Set<TBLPerson> selecteditems = datamodelpersona.getSelection();//Se crea una lista de personas con los elementos seleccionados
@@ -277,7 +277,7 @@ public class CManagerController extends SelectorComposer<Component> {
                 
                 for ( TBLPerson persona : selecteditems ) {//Por cada persona seleccionada
                     
-                    if ( buffer == null ) {//Si el buffer está vacío
+                    if ( buffer == null ) {//Si el buffer estï¿½ vacï¿½o
                         
                         buffer = persona.getID() + " " + persona.getFirstName() + " " + persona.getLastName() + " ";//Se toma el primer elemento
                         
@@ -289,11 +289,11 @@ public class CManagerController extends SelectorComposer<Component> {
                     }
                     
                 }
-                Messagebox.show( "Are you sure you wish to delete the following" + Integer.toString( selecteditems.size() ) + " selected elements? \n" + buffer, "Confirm Dialog", Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION, new org.zkoss.zk.ui.event.EventListener() {//Validación
+                Messagebox.show( "Are you sure you wish to delete the following" + Integer.toString( selecteditems.size() ) + " selected elements? \n" + buffer, "Confirm Dialog", Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION, new org.zkoss.zk.ui.event.EventListener() {//Validaciï¿½n
                     
                     public void onEvent( Event evt ) throws InterruptedException {
                         
-                        if ( evt.getName().equals( "onOK" ) ) { //Si la respuesta es sí
+                        if ( evt.getName().equals( "onOK" ) ) { //Si la respuesta es sï¿½
                             alert( "Elements erased!" ); //Se da un aviso
                             
                             while ( selecteditems.iterator().hasNext() ) {//mientras haya elementos seleccionados

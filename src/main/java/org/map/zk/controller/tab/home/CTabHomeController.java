@@ -47,21 +47,21 @@ public class CTabHomeController extends SelectorComposer<Component> {
 	        
 	        CExtendedConfigLogger extendedConfigLogger = SystemUtilities.initLoggerConfig( RunningPath, currentSession );
 	        
-	        TBLUser operatorCredential = ( TBLUser ) currentSession.getAttribute( SystemConstants._Operator_Credential_Session_Key );
+	        TBLUser tblUser = ( TBLUser ) currentSession.getAttribute( SystemConstants._Operator_Credential_Session_Key );
 	        
-	        String strOperator = SystemConstants._Operator_Unknown; 
+	        String strUser = SystemConstants._Operator_Unknown; 
 	        String strLoginDateTime = ( String ) currentSession.getAttribute( SystemConstants._Login_Date_Time_Session_Key ); 
 	        String strLogPath = ( String ) currentSession.getAttribute( SystemConstants._Log_Path_Session_Key );
-	        if ( operatorCredential != null )
-	            strOperator = operatorCredential.getName(); 
+	        if ( tblUser != null )
+	            strUser = tblUser.getName(); 
 	            
 	        if ( strLoginDateTime == null ) 
 	            strLoginDateTime = Utilities.getDateInFormat( ConstantsCommonClasses._Global_Date_Time_Format_File_System_24, null );
 	        
-	        final String LoggerName = SystemConstants._Tab_Home_Controller_Logger_Name;
-	        final String LoggerFileName = SystemConstants._Tab_Home_Controller_File_Log;
+	        final String strLoggerName = SystemConstants._Tab_Home_Controller_Logger_Name;
+	        final String strLoggerFileName = SystemConstants._Tab_Home_Controller_File_Log;
 	        
-	        controllerLogger = CExtendedLogger.getLogger( LoggerName + " " + strOperator + " " + strLoginDateTime );
+	        controllerLogger = CExtendedLogger.getLogger( strLoggerName + " " + strUser + " " + strLoginDateTime );
 	        
 	        if ( controllerLogger.getSetupSet() == false ) {
 	            
@@ -71,14 +71,14 @@ public class CTabHomeController extends SelectorComposer<Component> {
 	            
 	            if ( extendedConfigLogger != null )
 	                
-	                controllerLogger.setupLogger( strOperator + " " + strLoginDateTime, false, strLogPath, LoggerFileName, extendedConfigLogger.getClassNameMethodName(), extendedConfigLogger.getExactMatch(), extendedConfigLogger.getLevel(), extendedConfigLogger.getLogIP(), extendedConfigLogger.getLogPort(), extendedConfigLogger.getHTTPLogURL(), extendedConfigLogger.getHTTPLogUser(), extendedConfigLogger.getHTTPLogPassword(), extendedConfigLogger.getProxyIP(), extendedConfigLogger.getProxyPort(), extendedConfigLogger.getProxyUser(), extendedConfigLogger.getProxyPassword() );
+	                controllerLogger.setupLogger( strUser + " " + strLoginDateTime, false, strLogPath, strLoggerFileName, extendedConfigLogger.getClassNameMethodName(), extendedConfigLogger.getExactMatch(), extendedConfigLogger.getLevel(), extendedConfigLogger.getLogIP(), extendedConfigLogger.getLogPort(), extendedConfigLogger.getHTTPLogURL(), extendedConfigLogger.getHTTPLogUser(), extendedConfigLogger.getHTTPLogPassword(), extendedConfigLogger.getProxyIP(), extendedConfigLogger.getProxyPort(), extendedConfigLogger.getProxyUser(), extendedConfigLogger.getProxyPassword() );
 	            
 	            else
 	                
-	                controllerLogger.setupLogger( strOperator + " " + strLoginDateTime, false, strLogPath, LoggerFileName, SystemConstants.LOG_CLASS_METHOD, SystemConstants.LOG_EXACT_MATCH, SystemConstants.log_level, "", -1, "", "", "", "", -1, "", "" );
+	                controllerLogger.setupLogger( strUser + " " + strLoginDateTime, false, strLogPath, strLoggerFileName, SystemConstants._Log_Class_Method, SystemConstants._Log_Exact_Match, SystemConstants._Log_Level, "", -1, "", "", "", "", -1, "", "" );
 	            
 	           
-	                controllerLanguage = CLanguage.getLanguage( controllerLogger, RunningPath + SystemConstants._Langs_Dir + LoggerName + "." + SystemConstants._Lang_Ext );
+	                controllerLanguage = CLanguage.getLanguage( controllerLogger, RunningPath + SystemConstants._Langs_Dir + strLoggerName + "." + SystemConstants._Lang_Ext );
 	            
 	          
 	            synchronized ( currentSession ) {
@@ -92,7 +92,7 @@ public class CTabHomeController extends SelectorComposer<Component> {
 	                    synchronized ( loggedSessionLoggers ) {
 	                        
 	                       
-	                        loggedSessionLoggers.add( LoggerName + " " + strOperator + " " + strLoginDateTime );
+	                        loggedSessionLoggers.add( strLoggerName + " " + strUser + " " + strLoginDateTime );
 	                        
 	                    }
 	                    
@@ -114,7 +114,7 @@ public class CTabHomeController extends SelectorComposer<Component> {
 	            
 	            super.doAfterCompose( comp );
 	            
-	            final String strRunningPath = Sessions.getCurrent().getWebApp().getRealPath( SystemConstants._WEB_INF_DIR ) + File.separator;
+	            final String strRunningPath = Sessions.getCurrent().getWebApp().getRealPath( SystemConstants._Web_Inf_Dir ) + File.separator;
 	            
 	            initControllerLoggerAndControllerLanguage( strRunningPath, Sessions.getCurrent() );
 	            
