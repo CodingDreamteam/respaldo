@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
-//
 import org.map.zk.systemconstans.SystemConstants;
 import org.map.zk.utilities.SystemUtilities;
 import org.map.zk.database.datamodel.TBLUser;
@@ -113,9 +112,9 @@ public class ChomeController extends SelectorComposer<Component> {
             //
             super.doAfterCompose( comp );
             
-            final String strRunningPath = Sessions.getCurrent().getWebApp().getRealPath( SystemConstants._WEB_INF_DIR ) + File.separator;
+            final String strRunningpath = Sessions.getCurrent().getWebApp().getRealPath( SystemConstants._WEB_INF_DIR );
             
-            initControllerLoggerAndControllerLanguage( strRunningPath, Sessions.getCurrent() );
+            initControllerLoggerAndControllerLanguage( strRunningpath, Sessions.getCurrent() );
             
         }
         catch ( Exception ex ) {

@@ -1,6 +1,7 @@
 package org.map.zk.zksubsystem;
 
 import java.io.File;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.map.zk.systemconstans.SystemConstants;
@@ -89,9 +90,19 @@ public class CZKSubsystemEvents implements DesktopInit, DesktopCleanup, SessionI
     @Override
     public void cleanup( Session session ) throws Exception {
         
-
+        @SuppressWarnings( "unchecked" )
+        LinkedList<String> loggedSessionLoggers = (LinkedList<String>) session.getAttribute( SystemConstants._Logged_Session_Loggers );
         
+        for (String strLoggername : loggedSessionLoggers) {
+          
+          CExtendedLogger currentLogger = CExtendedLogger.getLogger( strLoggername );
+         
+          currentLogger.flushAndClose();
+          
+        }
+        loggedSessionLoggers.clear();
     }
+        
 
     @Override
     public void init( Session session, Object object ) throws Exception {

@@ -97,9 +97,9 @@ public class CloginController extends SelectorComposer<Component> {
                 
                 CDatabaseConnectionConfig config = new CDatabaseConnectionConfig();
                 
-                String patch = Sessions.getCurrent().getWebApp().getRealPath( SystemConstants._WEB_INF_DIR ) + File.separator + SystemConstants._CONFIG_DIR;
+                String patch = Sessions.getCurrent().getWebApp().getRealPath( SystemConstants._WEB_INF_DIR );
                 
-                if ( config.LoadConfig( patch + SystemConstants._DATABASE_CONFIG_FILE, controllogger, controllanguaje ) ) {
+                if ( config.LoadConfig( patch + File.separator + SystemConstants._CONFIG_DIR + SystemConstants._DATABASE_CONFIG_FILE, controllogger, controllanguaje ) ) {
                     
                     if ( ConnectionDatabase.makeConnectionToDatabase( config, controllogger, controllanguaje ) ) {//Si logra conectarse  
                         
@@ -123,7 +123,7 @@ public class CloginController extends SelectorComposer<Component> {
                             String DateTime = Utilities.getDateInFormat( ConstantsCommonClasses._Global_Date_Time_Format_File_System_24, null );
                             
                             //Creamos la variable del logpath
-                            String LogPath = patch + SystemConstants._Logs_Dir + username + File.separator + DateTime + File.separator;
+                            String LogPath = patch + File.separator + SystemConstants._Logs_Dir + username + File.separator + DateTime + File.separator;
                             
                             //La guardamos en la sesion
                             currentSession.setAttribute( SystemConstants._Log_Path_Session_Key, LogPath );
