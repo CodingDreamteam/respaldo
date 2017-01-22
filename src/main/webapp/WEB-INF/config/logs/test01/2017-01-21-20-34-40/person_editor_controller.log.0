@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<logs>
+<logMark Type="Init" Date="21/01/2017" Time="20:34:53"/>
+<Log InstanceID="test01 2017-01-21-20-34-40" LogType="Error" Level="INFO" Date="21/01/2017" Time="20:34:53" LoggerName="person_editor_controller test01 2017-01-21-20-34-40" Sequence="1" ThreadID="12" ThreadName="qtp17660671-12" PackageName="commonlibs.commonclasses" ClassName="CLanguage" MethodName="setLanguageFileName" Line="134" Code="-1002" Message="The language file in the path [C:\Users\German\Desktop\Map-System\src\main\webapp\WEB-INFlangs\person_editor_controller.init.lang.xml] not exists"/>

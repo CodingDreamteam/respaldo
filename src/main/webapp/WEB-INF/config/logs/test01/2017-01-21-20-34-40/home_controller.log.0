@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<logs>
+<logMark Type="Init" Date="21/01/2017" Time="20:34:40"/>
+<Log InstanceID="test01 2017-01-21-20-34-40" LogType="Error" Level="INFO" Date="21/01/2017" Time="20:34:40" LoggerName="home_controller test01 2017-01-21-20-34-40" Sequence="1" ThreadID="17" ThreadName="qtp17660671-17" PackageName="commonlibs.commonclasses" ClassName="CLanguage" MethodName="setLanguageFileName" Line="134" Code="-1002" Message="The language file in the path [C:\Users\German\Desktop\Map-System\src\main\webapp\WEB-INF\langs\home_controller.init.lang.xml] not exists"/>
+<Log InstanceID="test01 2017-01-21-20-34-40" LogType="Message" Level="INFO" Date="21/01/2017" Time="20:34:49" LoggerName="home_controller test01 2017-01-21-20-34-40" Sequence="2" ThreadID="15" ThreadName="qtp17660671-15" PackageName="org.map.zk.homecontroller" ClassName="ChomeController" MethodName="onClickbuttonPersonManager" Line="143" Code="1" Message="Button person manager clicked"/>

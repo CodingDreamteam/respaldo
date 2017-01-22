@@ -1,0 +1,25 @@
+<?page title="Manager" contentType="text/html;charset=UTF-8"?>
+<?init class="org.map.zk.security.CSecurity"?>
+<zk>
+    <window id="windowManager" xmlns:w="client" position="center, center" apply="org.map.zk.controllers.manager.CManagerController" title="Persona" border="normal" hflex="min" width="360px">
+        <vlayout width="710px">
+            <listbox id="listboxPersons" width="100%" height="360px">
+            <listhead width="100%" height="100%">
+            <listheader label="Ci" width="100px"></listheader>
+            <listheader label="First Name" width="100px"></listheader>
+            <listheader label="Last Name" width="100px"></listheader>            
+            <listheader label="Gender" width="100px"></listheader>
+            <listheader label="Birthdate" width="100px"></listheader>
+            <listheader label="Comment" width="100px"> </listheader>           
+            </listhead>
+            </listbox>
+            <div id="buttoncontainer">
+                <button id="buttonClose" label="Close"></button>
+                <button id="buttonLoad" label="Load"></button>
+                <button id="buttonDelete" label="Delete" style="float:right;margin-left:15px"></button>
+                <button id="buttonModify" label="Modify" style="float:right;margin-left:15px"></button>
+                <button id="buttonAdd" label="Add" style="float:right;margin-left:15px"></button>
+            </div>            
+        </vlayout>
+    </window>
+</zk>

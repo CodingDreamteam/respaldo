@@ -1,0 +1,72 @@
+<?page title="Person" contentType="text/html;charset=UTF-8"?>
+<?init class="org.map.zk.security.CSecurity"?>
+<zk>
+    <window id="windowPerson" xmlns:w="client" apply="org.map.zk.controllers.editor.CEditorController" title="Persona" border="normal" hflex="min">
+        <vlayout width="355px">
+            <grid hflex="min">
+                <rows>
+                    <row>
+                        <label id="labelCi" value="CI" width="150px" />
+                        <textbox id="textboxCi" value="" width="250px" tabindex="1">
+                            <attribute w:name="doKeyPress_">
+                                
+                                <![CDATA[ function(evt) { if (!this._shallIgnore(evt, "0123456789")) this.$doKeyPress_(evt); } ]]>
+                                
+                            
+                            
+                        </attribute>
+                        </textbox>
+                    </row>
+                    <row>
+                        <label id="labelFirstName" value="First Name" width="150px" />
+                        <textbox id="textboxFirstName" value="" width="250px" tabindex="2">
+                        <attribute w:name="doKeyPress_">
+                                
+                                <![CDATA[ function(evt) { if (!this._shallIgnore(evt, "qwertyuiopasdfghjklñzxcvbnmQWERTYUIOPASDFGHJKLÑZXCVBNM ")) this.$doKeyPress_(evt); } ]]>
+                                
+                            
+                            
+                        </attribute>
+                        </textbox>
+                    </row>
+                    <row>
+                        <label id="labelLastName" value="Last Name" width="150px" />
+                        <textbox id="textboxLastName" value="" width="250px" tabindex="3">
+                        <attribute w:name="doKeyPress_">
+                                
+                                <![CDATA[ function(evt) { if (!this._shallIgnore(evt, "qwertyuiopasdfghjklñzxcvbnmQWERTYUIOPASDFGHJKLÑZXCVBNM ")) this.$doKeyPress_(evt); } ]]>
+                                
+                            
+                            
+                        </attribute>
+                        </textbox>
+                    </row>
+                    <row>
+                        <label id="labelBirthdate" value="Birthdate" width="150px" />
+                        <datebox id="dateboxBirthdate" width="250px" tabindex="5">
+                        <attribute w:name="doKeyPress_">
+                                
+                                <![CDATA[ function(evt) { if (!this._shallIgnore(evt, "0123456789")) this.$doKeyPress_(evt); } ]]>
+                                
+                            
+                            
+                        </attribute>
+                        </datebox>
+                    </row>
+                    <row>
+                        <label id="labelGender" value="Gender" width="150px" />
+                        <selectbox id="selectboxGender" />
+                    </row>
+                    <row>
+                        <label id="labelComment" value="Comment" width="150px" />
+                        <textbox id="textboxComment" value="[Add a comment about this person]" width="250px" tabindex="6" rows="10" />
+                    </row>
+                </rows>
+            </grid>
+            <div id="buttoncontainer">
+                <button id="buttonSave" label="Save Data" style="float:right;margin-left:15px"></button>
+                <button id="buttonCancel" label="Cancel" style="float:right;margin-left:15px"></button>
+            </div>
+        </vlayout>
+    </window>
+</zk>   
