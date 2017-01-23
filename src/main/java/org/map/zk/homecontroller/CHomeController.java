@@ -154,9 +154,9 @@ public void initView() {
 
   
         Component[] components = Executions.getCurrent().createComponents( "/views/tabs/home/tabhome.zul", null );
-           
-        Tab tab = (Tab) ZKUtilities.getComponent( components, "Tab" );      
-        
+       
+        Tab tab = (Tab) ZKUtilities.getComponent( components, "Tab" );  
+                     
         if ( tab != null ) {
             
            
@@ -165,11 +165,35 @@ public void initView() {
             
             Tabpanel tabPanel = (Tabpanel) ZKUtilities.getComponent( components, "Tabpanel" );      
             
+          
+            
             
             if ( tabPanel != null )
                 tabboxMainContent.getTabpanels().appendChild( tabPanel );
         
         }
+        
+     	components = Executions.getCurrent().createComponents( "/views/tabs/map/map.zul", null ); 
+     	
+     	tab = (Tab) ZKUtilities.getComponent( components, "Tab" );//amen
+     	
+        if ( tab != null ) {
+            
+            
+            tabboxMainContent.getTabs().appendChild( tab );
+            
+            
+            Tabpanel tabPanel = (Tabpanel) ZKUtilities.getComponent( components, "Tabpanel" );      
+            
+          
+            
+            
+            if ( tabPanel != null )
+                tabboxMainContent.getTabpanels().appendChild( tabPanel );
+        
+        }
+        
+        
         
         if ( tblUser.getRole().equalsIgnoreCase( "admin" ) ) {
             
@@ -194,6 +218,7 @@ public void initView() {
             }
             
         }
+     
         else if ( tblUser.getRole().equalsIgnoreCase( "user.type1" ) ) {
             
             
