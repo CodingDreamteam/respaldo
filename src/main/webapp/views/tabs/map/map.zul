@@ -3,21 +3,50 @@
 <?init class="org.map.zk.security.CSecurity"?>
 <zk>
 
+ 
+
  <tab id="tabMap" label="Map"/>
  
-     <tabpanel id="tabPanelMap" apply="org.map.zk.controller.tab.map.CTabMapController">
+     <tabpanel id="tabPanelMap" apply="org.map.zk.controller.tab.map.CTabMapController" >
+     
       
-      
-      <div apply="org.map.zk.controller.map.CApiMapcontroller">
+      <div apply="org.map.zk.controller.map.CApiMapcontroller" style="float:left;margin-left:30px">
   
          <script type="text/javascript" content="zk.googleAPIkey='AIzaSyDRC40JeC4GUkzNKbmvw0H2MYOTx1FNVWc'" />
     
-        <gmaps version="3.26" id="gmaps" width="700px" height="500px" showSmallCtrl="true" protocol="https">
+        <gmaps version="3.26" id="gmaps" width="1000px" height="500px" showSmallCtrl="true" protocol="https">
 
         </gmaps>
 
        </div>
      
+        <div >
+        
+        <grid height="175px" width="500px" style="float:left;margin-left:40px" apply="org.map.zk.controller.map.CApiMapConfigController">
+         <rows>
+            <row>
+                <label value="Latitude:" />
+                <doublebox id="latitude" hflex="1" />
+            </row>
+            <row>
+                <label value="Longitude:" /> 
+                <doublebox id="longitude" hflex="1" />
+            </row>
+            <row>
+                <label value="Zoom Level:" /> 
+                <intbox id="zoom" hflex="1" />
+            </row>
+            <row>
+                <label value="Open Info:" />
+                <button id="toggleInfo" label="Toggle Info" hflex="1" />
+            </row>
+          </rows>
+        </grid>
+        
+        </div>
+      
      </tabpanel>
-
+	
+	
+	
 </zk>
