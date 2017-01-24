@@ -75,6 +75,11 @@
 			<artifactId>commons-io</artifactId>
 			<version>${commons-io}</version>
 		</dependency>
+        <dependency>
+            <groupId>org.zkoss.zkforge</groupId>
+            <artifactId>gmapsz</artifactId>
+            <version>3.0.4</version>
+        </dependency>
 	</dependencies>
 	<build>
 		<finalName>${project.artifactId}</finalName>
